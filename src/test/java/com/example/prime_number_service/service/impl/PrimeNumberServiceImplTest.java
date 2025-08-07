@@ -19,37 +19,37 @@ class PrimeNumberServiceImplTest {
 
     @Test
     void calculatePrimesUpTo_WithZero_ReturnsEmptyList() {
-        List<Integer> result = primeNumberService.calculatePrimeNumbersUpTo(0);
+        List<Integer> result = primeNumberService.calculatePrimeNumbersUsingTrialAlgorithmUpTo(0);
         assertTrue(result.isEmpty());
     }
 
     @Test
     void calculatePrimesUpTo_WithOne_ReturnsEmptyList() {
-        List<Integer> result = primeNumberService.calculatePrimeNumbersUpTo(1);
+        List<Integer> result = primeNumberService.calculatePrimeNumbersUsingTrialAlgorithmUpTo(1);
         assertTrue(result.isEmpty());
     }
 
     @Test
     void calculatePrimesUpTo_WithTwo_ReturnsListWithTwo() {
-        List<Integer> result = primeNumberService.calculatePrimeNumbersUpTo(2);
+        List<Integer> result = primeNumberService.calculatePrimeNumbersUsingTrialAlgorithmUpTo(2);
         assertEquals(List.of(2), result);
     }
 
     @Test
     void calculatePrimesUpTo_WithFifty_ReturnsCorrectPrimes() {
-        List<Integer> result = primeNumberService.calculatePrimeNumbersUpTo(50);
+        List<Integer> result = primeNumberService.calculatePrimeNumbersUsingTrialAlgorithmUpTo(50);
         assertEquals(Arrays.asList(2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47), result);
     }
 
     @Test
     void calculatePrimesUpTo_WithNegativeNumber_ReturnsEmptyList() {
-        List<Integer> result = primeNumberService.calculatePrimeNumbersUpTo(-5);
+        List<Integer> result = primeNumberService.calculatePrimeNumbersUsingTrialAlgorithmUpTo(-5);
         assertTrue(result.isEmpty());
     }
 
     @Test
     void calculatePrimesUpTo_ResultContainsNoDuplicates() {
-        List<Integer> result = primeNumberService.calculatePrimeNumbersUpTo(50);
+        List<Integer> result = primeNumberService.calculatePrimeNumbersUsingTrialAlgorithmUpTo(50);
         assertEquals(result.size(), result.stream().distinct().count());
     }
 } 

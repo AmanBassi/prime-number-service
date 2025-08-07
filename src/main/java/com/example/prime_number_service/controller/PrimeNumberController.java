@@ -18,6 +18,16 @@ public class PrimeNumberController {
 
     @GetMapping("/prime-numbers")
     public List<Integer> getPrimeNumbersUpTo(@RequestParam int number) {
-        return primeNumberService.calculatePrimeNumbersUpTo(number);
+        return primeNumberService.calculatePrimeNumbersUsingTrialAlgorithmUpTo(number);
+    }
+
+    @GetMapping("/prime-numbers-sieve")
+    public List<Integer> getPrimeNumbersUsingSieveAlgorithmUpTo(@RequestParam int number) {
+        return primeNumberService.calculatePrimeNumbersUsingSieveAlgorithmUpTo(number);
+    }
+
+    @GetMapping("/prime-numbers-half-sieve")
+    public List<Integer> getPrimeNumbersUsingHalfSieveAlgorithmUpTo(@RequestParam int number) {
+        return primeNumberService.calculatePrimeNumbersUsingHalfSieveAlgorithmUpTo(number);
     }
 }
