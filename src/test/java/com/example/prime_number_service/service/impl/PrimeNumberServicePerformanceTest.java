@@ -29,25 +29,25 @@ class PrimeNumberServicePerformanceTest {
 
         for (int number : testNumbers) {
             // Warm up JVM
-            primeNumberService.calculatePrimeNumbersUsingTrialAlgorithmUpTo(number);
-            primeNumberService.calculatePrimeNumbersUsingSieveAlgorithmUpTo(number);
-            primeNumberService.calculatePrimeNumbersUsingHalfSieveAlgorithmUpTo(number);
+            primeNumberService.generatePrimeNumbersUsingTrialDivision(number);
+            primeNumberService.generatePrimeNumbersUsingSieveOfEratosthenes(number);
+            primeNumberService.generatePrimeNumbersUsingOptimisedSieveOfEratosthenes(number);
 
             // Test trial division
             long startTime = System.nanoTime();
-            List<Integer> result1 = primeNumberService.calculatePrimeNumbersUsingTrialAlgorithmUpTo(number);
+            List<Integer> result1 = primeNumberService.generatePrimeNumbersUsingTrialDivision(number);
             long endTime = System.nanoTime();
             long duration1 = (endTime - startTime);
 
             // Test sieve
             startTime = System.nanoTime();
-            List<Integer> result2 = primeNumberService.calculatePrimeNumbersUsingSieveAlgorithmUpTo(number);
+            List<Integer> result2 = primeNumberService.generatePrimeNumbersUsingSieveOfEratosthenes(number);
             endTime = System.nanoTime();
             long duration2 = (endTime - startTime);
 
             // Test half sieve
             startTime = System.nanoTime();
-            List<Integer> result3 = primeNumberService.calculatePrimeNumbersUsingHalfSieveAlgorithmUpTo(number);
+            List<Integer> result3 = primeNumberService.generatePrimeNumbersUsingOptimisedSieveOfEratosthenes(number);
             endTime = System.nanoTime();
             long duration3 = (endTime - startTime);
 

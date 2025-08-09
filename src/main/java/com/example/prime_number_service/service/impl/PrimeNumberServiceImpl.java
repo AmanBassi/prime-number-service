@@ -1,5 +1,7 @@
 package com.example.prime_number_service.service.impl;
 
+import com.example.prime_number_service.exception.UnsupportedPrimeNumberAlgorithmException;
+import com.example.prime_number_service.model.PrimeNumberRequest;
 import com.example.prime_number_service.service.PrimeNumberService;
 import com.example.prime_number_service.util.PrimeNumberUtil;
 import org.springframework.stereotype.Service;
@@ -13,7 +15,7 @@ import java.util.List;
 public class PrimeNumberServiceImpl implements PrimeNumberService {
 
     @Override
-    public List<Integer> calculatePrimeNumbersUsingTrialAlgorithmUpTo(int number) {
+    public List<Integer> generatePrimeNumbersUsingTrialDivision(int number) {
         List<Integer> primeNumbers = new ArrayList<>();
         for (int i = 2; i <= number; i++) {
             if (PrimeNumberUtil.isPrime(i)) {
@@ -24,7 +26,11 @@ public class PrimeNumberServiceImpl implements PrimeNumberService {
     }
 
     @Override
-    public List<Integer> calculatePrimeNumbersUsingSieveAlgorithmUpTo(int number) {
+    public List<Integer> generatePrimeNumbersUsingSieveOfEratosthenes(int number) {
+        if (number < 2) {
+            return Collections.emptyList();
+        }
+
         boolean[] isPrime = new boolean[number + 1];
         Arrays.fill(isPrime, true);
         isPrime[0] = false;
@@ -49,7 +55,7 @@ public class PrimeNumberServiceImpl implements PrimeNumberService {
     }
 
     @Override
-    public List<Integer> calculatePrimeNumbersUsingHalfSieveAlgorithmUpTo(int number) {
+    public List<Integer> generatePrimeNumbersUsingOptimisedSieveOfEratosthenes(int number) {
         if (number < 2) {
             return Collections.emptyList();
         }
@@ -80,4 +86,15 @@ public class PrimeNumberServiceImpl implements PrimeNumberService {
 
         return primes;
     }
+
+    @Override
+    public List<Integer> generatePrimeNumbers(PrimeNumberRequest request) {
+        return switch (request.primeNumberAlgorithm()) {
+            case TRIAL_DIVISION -> generatePrimeNumbersUsingTrialDivision(request.number());
+            case SIEVE_OF_ERATOSTHENES -> generatePrimeNumbersUsingSieveOfEratosthenes(request.number());
+            case OPTIMISED_SIEVE_OF_ERATOSTHENES -> generatePrimeNumbersUsingOptimisedSieveOfEratosthenes(request.number());
+            default -> throw new UnsupportedPrimeNumberAlgorithmException(request.primeNumberAlgorithm().toString());
+        };
+    }
+
 }
