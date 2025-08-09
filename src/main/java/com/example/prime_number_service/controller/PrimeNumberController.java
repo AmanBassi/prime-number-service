@@ -5,6 +5,8 @@ import com.example.prime_number_service.service.PrimeNumberService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,8 @@ import java.util.List;
 @Validated
 public class PrimeNumberController {
 
+    private static final Logger log = LoggerFactory.getLogger(PrimeNumberController.class);
+
     private final PrimeNumberService primeNumberService;
 
     public PrimeNumberController(PrimeNumberService primeNumberService) {
@@ -28,6 +32,7 @@ public class PrimeNumberController {
             @RequestParam
             @Min(value = 0, message = "Number must be at least 0")
             @Max(value = 100000, message = "Number must be less than or equal to 100,000") int number) {
+        log.info("Request /prime-numbers-trial with number={}", number);
         return primeNumberService.generatePrimeNumbersUsingTrialDivision(number);
     }
 
@@ -36,6 +41,7 @@ public class PrimeNumberController {
             @RequestParam
             @Min(value = 0, message = "Number must be at least 0")
             @Max(value = 1000000, message = "Number must be less than or equal to 1,000,000") int number) {
+        log.info("Request /prime-numbers-sieve with number={}", number);
         return primeNumberService.generatePrimeNumbersUsingSieveOfEratosthenes(number);
     }
 
@@ -44,11 +50,13 @@ public class PrimeNumberController {
             @RequestParam
             @Min(value = 0, message = "Number must be at least 0")
             @Max(value = 1000000, message = "Number must be less than or equal to 1,000,000") int number) {
+        log.info("Request /prime-numbers-optimised-sieve with number={}", number);
         return primeNumberService.generatePrimeNumbersUsingOptimisedSieveOfEratosthenes(number);
     }
 
     @GetMapping("/prime-numbers")
     public List<Integer> getPrimeNumbersUsingTrailDivisionAlgorithm(@ParameterObject @Valid PrimeNumberRequest request) {
+        log.info("Request /prime-numbers with request={}", request);
         return primeNumberService.generatePrimeNumbers(request);
     }
 }

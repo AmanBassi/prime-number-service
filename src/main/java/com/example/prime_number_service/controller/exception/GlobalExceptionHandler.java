@@ -2,6 +2,8 @@ package com.example.prime_number_service.controller.exception;
 
 import com.example.prime_number_service.exception.UnsupportedPrimeNumberAlgorithmException;
 import jakarta.validation.ConstraintViolationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.validation.FieldError;
@@ -15,6 +17,8 @@ import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ProblemDetail handleValidationExceptions(MethodArgumentNotValidException ex) {
@@ -55,6 +59,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UnsupportedPrimeNumberAlgorithmException.class)
     public ProblemDetail handleUnsupportedPrimeNumberAlgorithmException(UnsupportedPrimeNumberAlgorithmException ex) {
+        log.error("{}", ex.getMessage());
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
         problemDetail.setTitle("Validation error");
         return problemDetail;
