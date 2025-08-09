@@ -155,7 +155,8 @@ class PrimeNumberControllerTest {
                         .get("/prime-numbers-trial")
                         .then()
                         .statusCode(400)
-                        .body("title", equalTo("Validation error"));
+                        .body("title", equalTo("Validation error"))
+                        .body("detail", containsString("Number must be less than or equal to 100,000"));
             }
         }
 
@@ -206,7 +207,8 @@ class PrimeNumberControllerTest {
                         .get("/prime-numbers-sieve")
                         .then()
                         .statusCode(400)
-                        .body("title", equalTo("Validation error"));
+                        .body("title", equalTo("Validation error"))
+                        .body("detail", containsString("Number must be less than or equal to 1,000,000"));
             }
         }
 
@@ -257,7 +259,8 @@ class PrimeNumberControllerTest {
                         .get("/prime-numbers-optimised-sieve")
                         .then()
                         .statusCode(400)
-                        .body("title", equalTo("Validation error"));
+                        .body("title", equalTo("Validation error"))
+                        .body("detail", containsString("Number must be less than or equal to 1,000,000"));
             }
         }
 

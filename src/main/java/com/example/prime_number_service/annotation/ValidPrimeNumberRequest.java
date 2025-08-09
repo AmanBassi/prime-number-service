@@ -22,5 +22,3 @@ public @interface ValidPrimeNumberRequest {
 
     Class<? extends Payload>[] payload() default {};
 }
-
-

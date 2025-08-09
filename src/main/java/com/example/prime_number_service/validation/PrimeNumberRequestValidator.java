@@ -16,7 +16,7 @@ public class PrimeNumberRequestValidator implements ConstraintValidator<ValidPri
     @Override
     public boolean isValid(PrimeNumberRequest value, ConstraintValidatorContext context) {
         if (value == null) {
-            return true; // Let @NotNull handle this if needed
+            return true;
         }
 
         int number = value.number();
@@ -26,25 +26,23 @@ public class PrimeNumberRequestValidator implements ConstraintValidator<ValidPri
         context.disableDefaultConstraintViolation();
 
         if (algorithm == TRIAL_DIVISION && number > MAX_TRIAL) {
-            context.buildConstraintViolationWithTemplate("Number must be less than or equal to " + MAX_TRIAL + " for TRIAL_DIVISION"
-            ).addPropertyNode("number").addConstraintViolation();
+            context.buildConstraintViolationWithTemplate("Number must be less than or equal to " + MAX_TRIAL + " for TRIAL_DIVISION")
+                    .addPropertyNode("number").addConstraintViolation();
             return false;
         }
 
         if (algorithm == SIEVE_OF_ERATOSTHENES && number > MAX_SIEVE) {
-            context.buildConstraintViolationWithTemplate("Number must be less than or equal to " + MAX_SIEVE + " for SIEVE_OF_ERATOSTHENES"
-            ).addPropertyNode("number").addConstraintViolation();
+            context.buildConstraintViolationWithTemplate("Number must be less than or equal to " + MAX_SIEVE + " for SIEVE_OF_ERATOSTHENES")
+                    .addPropertyNode("number").addConstraintViolation();
             return false;
         }
 
         if (algorithm == OPTIMISED_SIEVE_OF_ERATOSTHENES && number > MAX_SIEVE) {
-            context.buildConstraintViolationWithTemplate("Number must be less than or equal to " + MAX_SIEVE + " for OPTIMISED_SIEVE_OF_ERATOSTHENES"
-            ).addPropertyNode("number").addConstraintViolation();
+            context.buildConstraintViolationWithTemplate("Number must be less than or equal to " + MAX_SIEVE + " for OPTIMISED_SIEVE_OF_ERATOSTHENES")
+                    .addPropertyNode("number").addConstraintViolation();
             return false;
         }
 
         return true;
     }
 }
-
-

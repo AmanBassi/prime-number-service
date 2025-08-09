@@ -24,7 +24,7 @@ public class PrimeNumberController {
     }
 
     @GetMapping("/prime-numbers-trial")
-    public List<Integer> getPrimeNumbersUpTo(
+    public List<Integer> getPrimeNumbersUsingTrailDivisionAlgorithm(
             @RequestParam
             @Min(value = 0, message = "Number must be at least 0")
             @Max(value = 100000, message = "Number must be less than or equal to 100,000") int number) {
@@ -32,7 +32,7 @@ public class PrimeNumberController {
     }
 
     @GetMapping("/prime-numbers-sieve")
-    public List<Integer> getPrimeNumbersUsingSieveAlgorithmUpTo(
+    public List<Integer> getPrimeNumbersUsingSieveAlgorithm(
             @RequestParam
             @Min(value = 0, message = "Number must be at least 0")
             @Max(value = 1000000, message = "Number must be less than or equal to 1,000,000") int number) {
@@ -40,7 +40,7 @@ public class PrimeNumberController {
     }
 
     @GetMapping("/prime-numbers-optimised-sieve")
-    public List<Integer> getPrimeNumbersUsingHalfSieveAlgorithmUpTo(
+    public List<Integer> getPrimeNumbersUsingOptimisedSieveAlgorithm(
             @RequestParam
             @Min(value = 0, message = "Number must be at least 0")
             @Max(value = 1000000, message = "Number must be less than or equal to 1,000,000") int number) {
@@ -48,7 +48,7 @@ public class PrimeNumberController {
     }
 
     @GetMapping("/prime-numbers")
-    public List<Integer> getPrimeNumbersUpTo(@ParameterObject @Valid PrimeNumberRequest request) {
+    public List<Integer> getPrimeNumbersUsingTrailDivisionAlgorithm(@ParameterObject @Valid PrimeNumberRequest request) {
         return primeNumberService.generatePrimeNumbers(request);
     }
 }
