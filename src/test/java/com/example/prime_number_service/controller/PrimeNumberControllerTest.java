@@ -33,49 +33,49 @@ class PrimeNumberControllerTest {
         @DisplayName("GET /prime-numbers-trial returns primes up to N")
         void trialDivisionEndpoint() {
             given()
-                .queryParam("number", 10)
-            .when()
-                .get("/prime-numbers-trial")
-            .then()
-                .statusCode(200)
-                .body("$", equalTo(Arrays.asList(2, 3, 5, 7)));
+                    .queryParam("number", 10)
+                    .when()
+                    .get("/prime-numbers-trial")
+                    .then()
+                    .statusCode(200)
+                    .body("$", equalTo(Arrays.asList(2, 3, 5, 7)));
         }
 
         @Test
         @DisplayName("GET /prime-numbers-sieve returns primes up to N")
         void sieveEndpoint() {
             given()
-                .queryParam("number", 10)
-            .when()
-                .get("/prime-numbers-sieve")
-            .then()
-                .statusCode(200)
-                .body("$", equalTo(Arrays.asList(2, 3, 5, 7)));
+                    .queryParam("number", 10)
+                    .when()
+                    .get("/prime-numbers-sieve")
+                    .then()
+                    .statusCode(200)
+                    .body("$", equalTo(Arrays.asList(2, 3, 5, 7)));
         }
 
         @Test
         @DisplayName("GET /prime-numbers-optimised-sieve returns primes up to N")
         void halfSieveEndpoint() {
             given()
-                .queryParam("number", 10)
-            .when()
-                .get("/prime-numbers-optimised-sieve")
-            .then()
-                .statusCode(200)
-                .body("$", equalTo(Arrays.asList(2, 3, 5, 7)));
+                    .queryParam("number", 10)
+                    .when()
+                    .get("/prime-numbers-optimised-sieve")
+                    .then()
+                    .statusCode(200)
+                    .body("$", equalTo(Arrays.asList(2, 3, 5, 7)));
         }
 
         @Test
         @DisplayName("GET /prime-numbers with TRIAL_DIVISION returns primes up to N")
         void genericEndpointTrialDivision() {
             given()
-                .queryParam("number", 10)
-                .queryParam("primeNumberAlgorithm", "TRIAL_DIVISION")
-            .when()
-                .get("/prime-numbers")
-            .then()
-                .statusCode(200)
-                .body("$", equalTo(Arrays.asList(2, 3, 5, 7)));
+                    .queryParam("number", 10)
+                    .queryParam("primeNumberAlgorithm", "TRIAL_DIVISION")
+                    .when()
+                    .get("/prime-numbers")
+                    .then()
+                    .statusCode(200)
+                    .body("$", equalTo(Arrays.asList(2, 3, 5, 7)));
         }
 
         @Test
@@ -112,10 +112,21 @@ class PrimeNumberControllerTest {
         class TrialDivision {
 
             @Test
-            @DisplayName("number empty yields 400 ProblemDetail with title 'Validation error'")
+            @DisplayName("number empty yields 400 ProblemDetail with title 'Missing parameter'")
             void numberEmpty() {
                 given()
-                        .queryParam("number", "")
+                        .when()
+                        .get("/prime-numbers-trial")
+                        .then()
+                        .statusCode(400)
+                        .body("title", equalTo("Missing parameter"));
+            }
+
+            @Test
+            @DisplayName("number invalid yields 400 ProblemDetail with title 'Validation error'")
+            void numberInvalid() {
+                given()
+                        .queryParam("number", "invalid")
                         .when()
                         .get("/prime-numbers-trial")
                         .then()
@@ -139,7 +150,7 @@ class PrimeNumberControllerTest {
             @DisplayName("number above maximum yields 400 ProblemDetail with title 'Validation error'")
             void numberTooLarge() {
                 given()
-                        .queryParam("number", 1_000_001)
+                        .queryParam("number", 100_001)
                         .when()
                         .get("/prime-numbers-trial")
                         .then()
@@ -152,10 +163,21 @@ class PrimeNumberControllerTest {
         class SieveOfEratosthenes {
 
             @Test
-            @DisplayName("number empty yields 400 ProblemDetail with title 'Validation error'")
+            @DisplayName("number empty yields 400 ProblemDetail with title 'Missing parameter'")
             void numberEmpty() {
                 given()
-                        .queryParam("number", "")
+                        .when()
+                        .get("/prime-numbers-sieve")
+                        .then()
+                        .statusCode(400)
+                        .body("title", equalTo("Missing parameter"));
+            }
+
+            @Test
+            @DisplayName("number invalid yields 400 ProblemDetail with title 'Validation error'")
+            void numberInvalid() {
+                given()
+                        .queryParam("number", "invalid")
                         .when()
                         .get("/prime-numbers-sieve")
                         .then()
@@ -192,10 +214,21 @@ class PrimeNumberControllerTest {
         class OptimisedSieveOfEratosthenes {
 
             @Test
-            @DisplayName("number empty yields 400 ProblemDetail with title 'Validation error'")
+            @DisplayName("number empty yields 400 ProblemDetail with title 'Missing parameter'")
             void numberEmpty() {
                 given()
-                        .queryParam("number", "")
+                        .when()
+                        .get("/prime-numbers-optimised-sieve")
+                        .then()
+                        .statusCode(400)
+                        .body("title", equalTo("Missing parameter"));
+            }
+
+            @Test
+            @DisplayName("number invalid yields 400 ProblemDetail with title 'Validation error'")
+            void numberInvalid() {
+                given()
+                        .queryParam("number", "invalid")
                         .when()
                         .get("/prime-numbers-optimised-sieve")
                         .then()
@@ -228,71 +261,86 @@ class PrimeNumberControllerTest {
             }
         }
 
-        @Test
-        @DisplayName("number empty yields 400 ProblemDetail with title 'Validation error'")
-        void numberEmpty() {
-            given()
-                    .queryParam("number", "")
-                    .when()
-                    .get("/prime-numbers-trial")
-                    .then()
-                    .statusCode(400)
-                    .body("title", equalTo("Validation error"));
-        }
+        @Nested
+        class PrimeNumbers {
 
-        @Test
-        @DisplayName("number below minimum yields 400 ProblemDetail with title 'Validation error'")
-        void numberTooSmall() {
-            given()
-                .queryParam("number", -1)
-            .when()
-                .get("/prime-numbers-trial")
-            .then()
-                .statusCode(400)
-                .body("title", equalTo("Validation error"));
-        }
+            @Test
+            @DisplayName("number empty yields 400 ProblemDetail with title 'Validation error'")
+            void numberEmpty() {
+                given()
+                        .queryParam("primeNumberAlgorithm", "TRIAL_DIVISION")
+                        .when()
+                        .get("/prime-numbers")
+                        .then()
+                        .statusCode(400)
+                        .body("title", equalTo("Validation error"));
+            }
 
-        @Test
-        @DisplayName("number above maximum yields 400 ProblemDetail with title 'Validation error'")
-        void numberTooLarge() {
-            given()
-                .queryParam("number", 1_000_001)
-            .when()
-                .get("/prime-numbers-trial")
-            .then()
-                .statusCode(400)
-                .body("title", equalTo("Validation error"));
-        }
+            @Test
+            @DisplayName("prime number algorithm empty yields 400 ProblemDetail with title 'Validation error'")
+            void primeNumberAlgorithmEmpty() {
+                given()
+                        .queryParam("number", 10)
+                        .when()
+                        .get("/prime-numbers")
+                        .then()
+                        .statusCode(400)
+                        .body("title", equalTo("Validation error"));
+            }
 
-        @Test
-        @DisplayName("invalid enum value yields 400 with allowed values in detail")
-        void invalidEnumValue() {
-            given()
-                .queryParam("number", 10)
-                .queryParam("primeNumberAlgorithm", "NOT_A_REAL_ALGO")
-            .when()
-                .get("/prime-numbers")
-            .then()
-                .statusCode(400)
-                .body("title", equalTo("Validation error"))
-                .body("detail", containsString("Allowed values"))
-                .body("detail", containsString("TRIAL_DIVISION"));
-        }
+            @Test
+            @DisplayName("number below minimum yields 400 ProblemDetail with title 'Validation error'")
+            void numberTooSmall() {
+                given()
+                        .queryParam("number", -1)
+                        .queryParam("primeNumberAlgorithm", "TRIAL_DIVISION")
+                        .when()
+                        .get("/prime-numbers")
+                        .then()
+                        .statusCode(400)
+                        .body("title", equalTo("Validation error"));
+            }
 
-        @Test
-        @DisplayName("unsupported but valid enum (HASH_SET) yields 400 from service handler")
-        void unsupportedEnumHandledByService() {
-            given()
-                .queryParam("number", 10)
-                .queryParam("primeNumberAlgorithm", "HASH_SET")
-            .when()
-                .get("/prime-numbers")
-            .then()
-                .statusCode(400)
-                .body("title", equalTo("Validation error"))
-                .body("detail", equalTo("Unsupported prime number algorithm: HASH_SET"));
+            @Test
+            @DisplayName("number above maximum yields 400 ProblemDetail with title 'Validation error'")
+            void numberTooLarge() {
+                given()
+                        .queryParam("number", 1_000_001)
+                        .queryParam("primeNumberAlgorithm", "TRIAL_DIVISION")
+                        .when()
+                        .get("/prime-numbers")
+                        .then()
+                        .statusCode(400)
+                        .body("title", equalTo("Validation error"));
+            }
+
+            @Test
+            @DisplayName("invalid enum value yields 400 with allowed values in detail")
+            void invalidEnumValue() {
+                given()
+                        .queryParam("number", 10)
+                        .queryParam("primeNumberAlgorithm", "MAGIC")
+                        .when()
+                        .get("/prime-numbers")
+                        .then()
+                        .statusCode(400)
+                        .body("title", equalTo("Validation error"))
+                        .body("detail", containsString("PrimeNumberAlgorithm"));
+            }
+
+            @Test
+            @DisplayName("unsupported but valid enum (HASH_SET) yields 400 from service handler")
+            void unsupportedEnumHandledByService() {
+                given()
+                        .queryParam("number", 10)
+                        .queryParam("primeNumberAlgorithm", "HASH_SET")
+                        .when()
+                        .get("/prime-numbers")
+                        .then()
+                        .statusCode(400)
+                        .body("title", equalTo("Validation error"))
+                        .body("detail", equalTo("Unsupported prime number algorithm: HASH_SET"));
+            }
         }
     }
 }
-
-

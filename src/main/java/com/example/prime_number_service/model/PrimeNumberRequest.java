@@ -1,7 +1,13 @@
 package com.example.prime_number_service.model;
 
 import com.example.prime_number_service.constant.PrimeNumberAlgorithm;
+import com.example.prime_number_service.validation.ValidPrimeNumberRequest;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 
-public record PrimeNumberRequest(int number, PrimeNumberAlgorithm primeNumberAlgorithm) {}
-
-
+@ValidPrimeNumberRequest
+public record PrimeNumberRequest(
+        @PositiveOrZero int number,
+        @NotNull PrimeNumberAlgorithm primeNumberAlgorithm
+) {
+}

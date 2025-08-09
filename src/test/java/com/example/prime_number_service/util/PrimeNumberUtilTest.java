@@ -34,7 +34,7 @@ class PrimeNumberUtilTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20, 21, 22, 24, 25, 26, 27, 28, 30, Integer.MAX_VALUE-1})
+    @ValueSource(ints = {4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20, 21, 22, 24, 25, 26, 27, 28, 30, Integer.MAX_VALUE - 1})
     void isPrime_WithNonPrimeNumbers_ReturnsFalse(int nonPrimeNumber) {
         assertFalse(PrimeNumberUtil.isPrime(nonPrimeNumber));
     }
