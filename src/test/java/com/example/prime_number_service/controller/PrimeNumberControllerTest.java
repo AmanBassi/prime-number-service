@@ -11,8 +11,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import java.util.Arrays;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class PrimeNumberControllerTest {
@@ -39,6 +38,23 @@ class PrimeNumberControllerTest {
                     .then()
                     .statusCode(200)
                     .body("$", equalTo(Arrays.asList(2, 3, 5, 7)));
+        }
+
+        @Test
+        @DisplayName("GET /prime-numbers-trial returns primes up to N in XML format")
+        void trialDivisionEndpointXmlResponse() {
+            given()
+                    .accept("application/xml")
+                    .queryParam("number", 10)
+                    .when()
+                    .get("/prime-numbers-trial")
+                    .then()
+                    .statusCode(200)
+                    .contentType("application/xml")
+                    .body(hasXPath("/List/item[text()='2']"))
+                    .body(hasXPath("/List/item[text()='3']"))
+                    .body(hasXPath("/List/item[text()='5']"))
+                    .body(hasXPath("/List/item[text()='7']"));
         }
 
         @Test

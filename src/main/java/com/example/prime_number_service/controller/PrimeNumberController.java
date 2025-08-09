@@ -27,7 +27,10 @@ public class PrimeNumberController {
         this.primeNumberService = primeNumberService;
     }
 
-    @GetMapping("/prime-numbers-trial")
+    // how to test different return content types
+    //curl -H "Accept: application/json" "http://localhost:8080/prime-numbers-trial?number=1000"
+    //curl -H "Accept: application/xml" "http://localhost:8080/prime-numbers-trial?number=1000"
+    @GetMapping(value = "/prime-numbers-trial", produces = {"application/json", "application/xml"})
     public List<Integer> getPrimeNumbersUsingTrailDivisionAlgorithm(
             @RequestParam
             @Min(value = 0, message = "Number must be at least 0")
