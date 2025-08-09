@@ -1,5 +1,6 @@
-package com.example.prime_number_service.validation;
+package com.example.prime_number_service.annotation;
 
+import com.example.prime_number_service.validation.PrimeNumberRequestValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 

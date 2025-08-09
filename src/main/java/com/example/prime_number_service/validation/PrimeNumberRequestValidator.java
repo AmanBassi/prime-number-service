@@ -1,5 +1,6 @@
 package com.example.prime_number_service.validation;
 
+import com.example.prime_number_service.annotation.ValidPrimeNumberRequest;
 import com.example.prime_number_service.constant.PrimeNumberAlgorithm;
 import com.example.prime_number_service.model.PrimeNumberRequest;
 import jakarta.validation.ConstraintValidator;
