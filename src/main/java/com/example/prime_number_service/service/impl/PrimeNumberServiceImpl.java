@@ -4,6 +4,7 @@ import com.example.prime_number_service.exception.UnsupportedPrimeNumberAlgorith
 import com.example.prime_number_service.model.PrimeNumberRequest;
 import com.example.prime_number_service.service.PrimeNumberService;
 import com.example.prime_number_service.util.PrimeNumberUtil;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.List;
 public class PrimeNumberServiceImpl implements PrimeNumberService {
 
     @Override
+    @Cacheable(value = "primeNumbers", key = "#number + '-TRIAL_DIVISION'")
     public List<Integer> generatePrimeNumbersUsingTrialDivision(int number) {
         List<Integer> primeNumbers = new ArrayList<>();
         for (int i = 2; i <= number; i++) {
@@ -26,6 +28,7 @@ public class PrimeNumberServiceImpl implements PrimeNumberService {
     }
 
     @Override
+    @Cacheable(value = "primeNumbers", key = "#number + '-SIEVE_OF_ERATOSTHENES'")
     public List<Integer> generatePrimeNumbersUsingSieveOfEratosthenes(int number) {
         if (number < 2) {
             return Collections.emptyList();
@@ -55,6 +58,7 @@ public class PrimeNumberServiceImpl implements PrimeNumberService {
     }
 
     @Override
+    @Cacheable(value = "primeNumbers", key = "#number + '-OPTIMISED_SIEVE_OF_ERATOSTHENES'")
     public List<Integer> generatePrimeNumbersUsingOptimisedSieveOfEratosthenes(int number) {
         if (number < 2) {
             return Collections.emptyList();
@@ -88,6 +92,7 @@ public class PrimeNumberServiceImpl implements PrimeNumberService {
     }
 
     @Override
+    @Cacheable(value = "primeNumbers", key = "#request.number + '-' + #request.primeNumberAlgorithm")
     public List<Integer> generatePrimeNumbers(PrimeNumberRequest request) {
         return switch (request.primeNumberAlgorithm()) {
             case TRIAL_DIVISION -> generatePrimeNumbersUsingTrialDivision(request.number());
