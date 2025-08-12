@@ -58,7 +58,7 @@ public class PrimeNumberController {
     }
 
     @GetMapping("/prime-numbers")
-    public List<Integer> getPrimeNumbersUsingTrailDivisionAlgorithm(@ParameterObject @Valid PrimeNumberRequest request) {
+    public List<Integer> getPrimeNumbersUsingProvidedAlgorithm(@ParameterObject @Valid PrimeNumberRequest request) {
         log.info("Request /prime-numbers with request={}", request);
         return primeNumberService.generatePrimeNumbers(request);
     }

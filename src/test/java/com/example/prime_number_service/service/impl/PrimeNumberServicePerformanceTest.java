@@ -3,6 +3,7 @@ package com.example.prime_number_service.service.impl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,7 +26,8 @@ class PrimeNumberServicePerformanceTest {
 
         int[] testNumbers = {100, 1000, 10000, 100000, 1000000};
 
-        System.out.printf("%-15s %-15s %-15s %-15s %-15s%n", "Number", "Trial (ns)", "Sieve (ns)", "Half Sieve (ns)", "Primes Found");
+        List<String> resultsTable = new ArrayList<>();
+        resultsTable.add(String.format("%-15s %-15s %-15s %-15s %-15s%n", "Number", "Trial (ns)", "Sieve (ns)", "Half Sieve (ns)", "Primes Found"));
 
         for (int number : testNumbers) {
             // Warm up JVM
@@ -51,7 +53,11 @@ class PrimeNumberServicePerformanceTest {
             endTime = System.nanoTime();
             long duration3 = (endTime - startTime);
 
-            System.out.printf("%-15d %-15d %-15d %-15d %-15d%n", number, duration1, duration2, duration3, result1.size());
+            resultsTable.add(String.format("%-15d %-15d %-15d %-15d %-15d%n", number, duration1, duration2, duration3, result1.size()));
+        }
+
+        for (String line : resultsTable) {
+            System.out.print(line);
         }
     }
 }
